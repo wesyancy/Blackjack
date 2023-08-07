@@ -58,3 +58,19 @@
 #Hint 13: Create a function called compare() and pass in the user_score and computer_score. If the computer and user both have the same score, then it's a draw. If the computer has a blackjack (0), then the user loses. If the user has a blackjack (0), then the user wins. If the user_score is over 21, then the user loses. If the computer_score is over 21, then the computer loses. If none of the above, then the player with the highest score wins.
 
 #Hint 14: Ask the user if they want to restart the game. If they answer yes, clear the console and start a new game of blackjack and show the logo from art.py.
+
+import random
+from art import logo
+from os import system, name #For clearing the system terminal
+
+#Building out the clear terminal function
+def clear (): 
+
+    #This is for Windows
+    if name == 'nt': 
+        _ = system ('cls')
+    
+    #This is for Mac, Linux
+    else:
+        _ = system ('clear')
+
