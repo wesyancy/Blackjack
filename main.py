@@ -74,3 +74,11 @@ def clear ():
     else:
         _ = system ('clear')
 
+print(logo)
+
+choice = input ("Would you like to clear the screen? Type 'y' or 'n' \n")
+
+if choice == 'y':
+    clear ()
+else:
+    print ("The screen has not been cleared")
