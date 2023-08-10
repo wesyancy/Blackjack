@@ -75,11 +75,13 @@ def clear():
     else:
         _ = system('clear')
 
+
 # Deals on card to designated player
 def deal_card():
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
     card = random.choice(cards)
     return card
+
 
 # Checks score of designated player
 def check_score(player):
@@ -87,6 +89,7 @@ def check_score(player):
     for card in player:
         sum += card
     return sum
+
 
 # Initializes End Game sequence
 def end_game(user, computer):
@@ -117,6 +120,7 @@ def end_game(user, computer):
         clear()
         print("Thanks for playing!")
 
+
 # Asks user if they would like another card and deals one appropriately
 def hit_me(user, computer):
     wants_hit = input("Would you like another card? Type 'y' or 'n': \n")
@@ -132,10 +136,10 @@ def hit_me(user, computer):
         end_game(user, computer)
         
 
+# Initialize the game, deal cards, and display scores
 def start_game():
     user = []
     computer = []
-    keep_playing = True
     user.append(deal_card())
     user.append(deal_card())
     computer.append(deal_card())
@@ -145,7 +149,7 @@ def start_game():
     print(f"Your cards are: {user}")
     print(f"Your current score is: {check_score(user)}")
 
-    while (keep_playing == True) and (check_score(user) < 22):
+    while check_score(user) < 22 :
         hit_me(user, computer)
 
     end_game(user, computer)
