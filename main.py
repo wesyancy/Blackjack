@@ -63,9 +63,8 @@ import random
 from art import logo
 from os import system, name  # For clearing the system terminal
 
+
 # Building out the clear terminal function
-
-
 def clear():
 
     # This is for Windows
@@ -76,27 +75,27 @@ def clear():
     else:
         _ = system('clear')
 
-
+# Deals on card to designated player
 def deal_card():
-
-    # Returns a card from the deck
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
     card = random.choice(cards)
     return card
 
-
+# Checks score of designated player
 def check_score(player):
     sum = 0
-    
     for card in player:
         sum += card
     return sum
 
-
+# Initializes End Game sequence
 def end_game(user, computer):
+    clear()
+
     user_score = check_score(user)
     computer_score = check_score(computer)
     
+    # Checks for winner/draw
     if (user_score > computer_score) and (user_score < 22):
         print(f"The dealer's score is: {computer_score}")
         print(f"Your score is: {user_score}")
@@ -108,7 +107,8 @@ def end_game(user, computer):
     else:
         print("You Lose")
 
-    play_again = print("Would you like to play again? Type 'y' or 'n':\n")
+    # Asks if user would like to play again
+    play_again = input("Would you like to play again? Type 'y' or 'n':\n")
 
     if play_again == 'y':
         clear()
@@ -117,82 +117,41 @@ def end_game(user, computer):
         clear()
         print("Thanks for playing!")
 
-
-def hit_me (user, computer):
-    if check_score(user) > 21:
-        end_game(user, computer)
-    else:
+# Asks user if they would like another card and deals one appropriately
+def hit_me(user, computer):
+    wants_hit = input("Would you like another card? Type 'y' or 'n': \n")
+    
+    if wants_hit == 'y':
+        clear()
         user.append(deal_card())
         computer.append(deal_card())
+        print(f"The dealer's first card is: {computer[0]}")
+        print(f"Your cards are: {user}")
+        print(f"Your current score is: {check_score(user)}")
+    else:
+        end_game(user, computer)
         
 
 def start_game():
     user = []
     computer = []
+    keep_playing = True
     user.append(deal_card())
     user.append(deal_card())
     computer.append(deal_card())
     computer.append(deal_card())
 
     print(f"The dealer's first card is: {computer[0]}")
-    print(f"Your cards are: {user[0]},{user[1]}")
+    print(f"Your cards are: {user}")
     print(f"Your current score is: {check_score(user)}")
 
-    hit = input("Would you like another card? Type 'y' or 'n':\n")
+    while (keep_playing == True) and (check_score(user) < 22):
+        hit_me(user, computer)
 
-    if hit == 'y':
-        clear()
-        user.append(deal_card())
-        computer.append(deal_card())
-
-        if check_score(user) > 21:
-            end_game(user, computer)
-
-        # Need to implement code block to check score of user (if above 21, game should end)
-        print(f"The dealer's first card is: {computer[0]}")
-        print(f"Your cards are: {user[0]},{user[1]},{user[2]}")
-        print(f"Your current score is: {check_score(user)}")
-        hit2 = input("Would you like another card? Type 'y' or 'n':\n")
-
-        if hit2 == 'y':
-            clear()
-            user.append(deal_card())
-            computer.append(deal_card())
-
-            if check_score(user) > 21:
-                end_game(user, computer)
-
-            # Need to implement code block to check score of user (if above 21, game should end)
-            print(f"The dealer's first card is: {computer[0]}")
-            print(f"Your cards are: {user[0]},{user[1]},{user[2]},{user[3]}")
-            print(f"Your current score is: {check_score(user)}")
-            hit3 = input("Would you like another card? Type 'y' or 'n':\n")
-
-            if hit3 == 'y':
-                clear()
-                user.append(deal_card())
-                computer.append(deal_card())
-
-                if check_score(user) > 21:
-                    end_game(user, computer)
-                # Can still fit another hit in here. Will need to re-code this to be a standalone function 'Hit' 
-                end_game(user, computer)
-
-            else:
-                clear()
-                end_game(user, computer)
-
-        else:
-            clear()
-            end_game(user, computer)
-
-    else:
-        clear()
-        end_game(user, computer)
+    end_game(user, computer)
 
 
 # GAME START
-
 print(logo)
 
 start_input = input("Do you want to start a game? Type 'y' or 'n'\n")
