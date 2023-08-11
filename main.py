@@ -83,11 +83,23 @@ def deal_card():
     return card
 
 
-# Checks score of designated player
+# Checks score of designated player and if necessary, changes Ace value from 11 to 1
 def check_score(player):
     sum = 0
+    sum2 = 0
+
+    # Checks score initially
     for card in player:
         sum += card
+
+    # Checks for bust from Ace, if so, changes ace value to 1
+    if sum > 21:
+        for card in player:
+            if card == 11:
+                card = 1
+            sum2 += card
+
+        return sum2
     return sum
 
 
@@ -97,7 +109,7 @@ def end_game(user, computer):
 
     user_score = check_score(user)
     computer_score = check_score(computer)
-    
+
     # Checks for winner/draw
     if (user_score > computer_score) and (user_score < 22):
         print(f"The dealer's score is: {computer_score}")
@@ -107,7 +119,11 @@ def end_game(user, computer):
         print(f"The dealer's score is: {computer_score}")
         print(f"Your score is: {user_score}")
         print("It's a DRAW!")
+    elif (user_score > 21):
+        print(f"You BUSTED: {user_score}")
+        print("You Lose")
     else:
+        print(f"Your score of {user_score} did not beat the dealer's score.")
         print("You Lose")
 
     # Asks if user would like to play again
@@ -115,7 +131,7 @@ def end_game(user, computer):
 
     if play_again == 'y':
         clear()
-        start_game()
+        main_game()
     elif play_again == 'n':
         clear()
         print("Thanks for playing!")
@@ -124,7 +140,8 @@ def end_game(user, computer):
 # Asks user if they would like another card and deals one appropriately
 def hit_me(user, computer):
     wants_hit = input("Would you like another card? Type 'y' or 'n': \n")
-    
+
+    # If user elects for 'hit', they and the dealer receive another card and score is updated
     if wants_hit == 'y':
         clear()
         user.append(deal_card())
@@ -132,12 +149,17 @@ def hit_me(user, computer):
         print(f"The dealer's first card is: {computer[0]}")
         print(f"Your cards are: {user}")
         print(f"Your current score is: {check_score(user)}")
-    else:
-        end_game(user, computer)
-        
 
-# Initialize the game, deal cards, and display scores
-def start_game():
+        if check_score(user) > 21:
+            return False
+    
+    # If user elects not to receive another card, false is returned to main_game function
+    else:
+        return False
+
+
+# Initializes the game, deals cards, and displays scores
+def main_game():
     user = []
     computer = []
     user.append(deal_card())
@@ -149,10 +171,22 @@ def start_game():
     print(f"Your cards are: {user}")
     print(f"Your current score is: {check_score(user)}")
 
-    while check_score(user) < 22 :
-        hit_me(user, computer)
+    # Continue variable created
+    cont = True
 
-    end_game(user, computer)
+    # If either the user or dealer has a 21, begin end game protocol
+    if (check_score(computer) == 21) or (check_score(user) == 21):
+        end_game(user, computer)
+        cont = False
+
+    # If neither user has 21 in initial hand, asks user if they would like another hit
+    while cont == True:
+        hit = hit_me(user, computer)
+        if hit == False:
+            cont = hit
+
+    if cont == False:
+        end_game(user, computer)
 
 
 # GAME START
@@ -161,4 +195,4 @@ print(logo)
 start_input = input("Do you want to start a game? Type 'y' or 'n'\n")
 if start_input == 'y':
     clear()
-    start_game()
+    main_game()
