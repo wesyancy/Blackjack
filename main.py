@@ -64,9 +64,9 @@ from art import logo
 from os import system, name  # For clearing the system terminal
 
 
-# Building out the clear terminal function
 def clear():
-
+    """ Clear terminal function """
+    
     # This is for Windows
     if name == 'nt':
         _ = system('cls')
@@ -76,15 +76,17 @@ def clear():
         _ = system('clear')
 
 
-# Deals on card to designated player
 def deal_card():
+    """ Deals one card to designated player """
+    
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
     card = random.choice(cards)
     return card
 
 
-# Checks score of designated player and if necessary, changes Ace value from 11 to 1
 def check_score(player):
+    """Checks score of designated player and if necessary changes Ace value from 11 to 1 """
+    
     sum = 0
     sum2 = 0
 
@@ -103,8 +105,8 @@ def check_score(player):
     return sum
 
 
-# Initializes End Game sequence
 def end_game(user, computer):
+    """ Initializes End Game sequence """
     clear()
 
     user_score = check_score(user)
@@ -137,8 +139,9 @@ def end_game(user, computer):
         print("Thanks for playing!")
 
 
-# Asks user if they would like another card and deals one appropriately
 def hit_me(user, computer):
+    """ Asks user if they would like another card and deals one appropriately """
+    
     wants_hit = input("Would you like another card? Type 'y' or 'n': \n")
 
     # If user elects for 'hit', they and the dealer receive another card and score is updated
@@ -158,8 +161,9 @@ def hit_me(user, computer):
         return False
 
 
-# Initializes the game, deals cards, and displays scores
 def main_game():
+    """ Initializes the game, deals cards, and displays scores """
+
     user = []
     computer = []
     user.append(deal_card())
